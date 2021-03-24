@@ -1,4 +1,4 @@
-package com.restful.services;
+package com.restful.todos;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,8 +8,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class BackendApplication {
 
 	public static void main(String[] args) {
-		ConfigurableApplicationContext run = SpringApplication.run(BackendApplication.class, args);
-		System.out.println("test");
+		SpringApplication.run(BackendApplication.class, args);
 	}
 
 }
