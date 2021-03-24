@@ -1,30 +1,24 @@
 import React, { Component } from "react";
+import TodoDataService from '../apis/TodoDataService.js'
+import AuthenticationService from "../services/AuthenticationService.js";
 
 class ToDosComponent extends Component{
     constructor(props){
         super(props)
         this.state = {
-            todos : [
-                {
-                    id: 1, 
-                    desc: "C++ Blog",
-                    done: false, 
-                    date: new Date()
-                },
-                {
-                    id: 2, 
-                    desc: "Python Blog",
-                    done: false, 
-                    date: new Date()
-                },
-                {
-                    id: 3, 
-                    desc: "Goland Blog",
-                    done: false, 
-                    date: new Date()
-                }
-            ]
+            todos : []
         }
+    }
+
+    componentDidMount(){
+        let username = AuthenticationService.getLoggedInUsername()
+        TodoDataService.retrieveAllTodos(username).then(
+            response => {
+                this.setState({todos : response.data})
+            }
+        ).catch(
+            response => console.log(response.error) 
+        )
     }
 
     render(){
@@ -35,7 +29,7 @@ class ToDosComponent extends Component{
                         <tr>
                             <th>ID</th>
                             <th>Description</th>
-                            <th>Done</th>
+                            <th>isDone</th>
                             <th>Date</th>
                         </tr>
                     </thead>
@@ -45,7 +39,7 @@ class ToDosComponent extends Component{
                                 todo =>
                                     <tr key={todo.id}>
                                         <td>{todo.id}</td>
-                                        <td>{todo.desc}</td>
+                                        <td>{todo.description}</td>
                                         <td>{todo.done.toString()}</td>
                                         <td>{todo.date.toString()}</td>
                                     </tr>
