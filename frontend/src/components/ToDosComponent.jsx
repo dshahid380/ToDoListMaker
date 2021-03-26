@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import TodoDataService from '../apis/TodoDataService.js'
 import AuthenticationService from "../services/AuthenticationService.js";
+import moment from 'moment'
 
 class ToDosComponent extends Component{
     constructor(props){
@@ -10,6 +11,7 @@ class ToDosComponent extends Component{
             message: null
         }
         this.handleDeleteTodo = this.handleDeleteTodo.bind(this)
+        this.handleUpdateTodo = this.handleUpdateTodo.bind(this)
     }
 
     handlePageRefresh(){
@@ -37,6 +39,18 @@ class ToDosComponent extends Component{
         )
     }
 
+    handleUpdateTodo(id){
+        console.log("Update todo id"+id.toString)
+        this.props.history.push(`/todos/${id}`)
+        // let username = AuthenticationService.getLoggedInUsername()
+        // TodoDataService.deleteTodo(username, id).then(
+        //     response => {
+        //         this.setState({message: `Delete of todo ${id} is successful.`})
+        //         this.handlePageRefresh()
+        //     }
+        // )
+    }
+
     render(){
         return(
             <div className="container">
@@ -48,6 +62,7 @@ class ToDosComponent extends Component{
                             <th>Description</th>
                             <th>isDone</th>
                             <th>Date</th>
+                            <th>Update</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
@@ -59,7 +74,8 @@ class ToDosComponent extends Component{
                                         <td>{todo.id}</td>
                                         <td>{todo.description}</td>
                                         <td>{todo.done.toString()}</td>
-                                        <td>{todo.date.toString()}</td>
+                                        <td>{moment(todo.date).format('YYYY-MM-DD')}</td>
+                                        <td><button className="btn btn-success" onClick={() => this.handleUpdateTodo(todo.id)}>Update</button></td>
                                         <td><button className="btn btn-warning" onClick={() => this.handleDeleteTodo(todo.id)}>Delete</button></td>
                                     </tr>
                             )
